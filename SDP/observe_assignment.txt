@@ -1,0 +1,128 @@
+
+//interface
+
+interface Subscriber {
+    void update(String news);
+
+    String getType();
+}
+
+
+//sportnews
+
+class SportsNewsSubscriber implements Subscriber {
+    private String name;
+
+    public SportsNewsSubscriber(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(String news) {
+        System.out.println(name + " received sports news: " + news);
+    }
+
+    @Override
+    public String getType() {
+        return "Sports";
+    }
+}
+
+
+//musicnews
+
+class MusicNewsSubscriber implements Subscriber {
+    private String name;
+
+    public MusicNewsSubscriber(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(String news) {
+        System.out.println(name + " received music news: " + news);
+    }
+
+    @Override
+    public String getType() {
+        return "Music";
+    }
+}
+
+//dancenews
+
+class DanceNewsSubscriber implements Subscriber {
+    private String name;
+
+    public DanceNewsSubscriber(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(String news) {
+        System.out.println(name + " received dance news: " + news);
+    }
+
+    @Override
+    public String getType() {
+        return "Dance";
+    }
+}
+
+
+//publisher
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Publisher {
+    private List<Subscriber> subscribers;
+
+    public Publisher() {
+        subscribers = new ArrayList<>();
+    }
+
+    public void register(Subscriber subscriber) {
+        subscribers.add(subscriber);
+    }
+
+    public void unregister(Subscriber subscriber) {
+        subscribers.remove(subscriber);
+    }
+
+    public void publishNews(String news, String type) {
+        for (Subscriber subscriber : subscribers) {
+            if (subscriber.getType().equals(type)) {
+                subscriber.update(news);
+            }
+        }
+    }
+}
+
+//main
+
+public class Main2 {
+
+    public static void main(String[] args) {
+        Publisher publisher = new Publisher();
+
+        Subscriber sportsSubscriber = new SportsNewsSubscriber("Sports News Subscriber");
+        Subscriber musicSubscriber = new MusicNewsSubscriber("Music News Subscriber");
+        Subscriber danceSubscriber = new DanceNewsSubscriber("Dance News Subscriber");
+
+        publisher.register(sportsSubscriber);
+        publisher.register(musicSubscriber);
+        publisher.register(danceSubscriber);
+
+        publisher.publishNews("Football World Cup canceled\n", "Sports");
+        publisher.publishNews("Artist Aditya Gadhvi drops a new song\n", "Music");
+        publisher.publishNews("Live concert canceled due to weather conditions\n", "Dance");
+
+        publisher.unregister(sportsSubscriber);
+
+        publisher.publishNews("Tennis Grand Slam postponed\n", "Sports");
+        publisher.publishNews("Band BTS latest album out now\n", "Music");
+        publisher.publishNews("Ballet performance rescheduled due to venue maintenance\n", "Dance");
+
+    }
+}

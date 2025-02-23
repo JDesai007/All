@@ -1,0 +1,72 @@
+// Interface representing states
+interface TrafficLightState {
+    void displayState();
+    void changeState(TrafficLight trafficLight);
+}
+
+// Concrete state: RedState
+class RedState implements TrafficLightState {
+    @Override
+    public void displayState() {
+        System.out.println("Traffic Light: Red");
+    }
+
+    @Override
+    public void changeState(TrafficLight trafficLight) {
+        System.out.println("Changing to Green...");
+        trafficLight.setCurrentState(new GreenState());
+    }
+}
+
+// Concrete state: GreenState
+class GreenState implements TrafficLightState {
+    @Override
+    public void displayState() {
+        System.out.println("Traffic Light: Green");
+    }
+
+    @Override
+    public void changeState(TrafficLight trafficLight) {
+        System.out.println("Changing to Red...");
+        trafficLight.setCurrentState(new RedState());
+    }
+}
+
+// Context class
+class TrafficLight {
+    private TrafficLightState currentState;
+
+    public TrafficLight() {
+        currentState = new RedState();
+    }
+
+    public void setCurrentState(TrafficLightState currentState) {
+        this.currentState = currentState;
+    }
+
+    public void displayState() {
+        currentState.displayState();
+    }
+
+    public void changeState() {
+        currentState.changeState(this);
+    }
+}
+
+// Client code
+public class Main5 {
+    public static void main(String[] args) {
+        TrafficLight trafficLight = new TrafficLight();
+
+        // Initial state: Red
+        trafficLight.displayState();
+
+        // Change to Green
+        trafficLight.changeState();
+        trafficLight.displayState();
+
+        // Change to Red
+        trafficLight.changeState();
+        trafficLight.displayState();
+    }
+}

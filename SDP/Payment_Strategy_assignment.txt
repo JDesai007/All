@@ -1,0 +1,80 @@
+public interface PaymentStrategy
+{
+    String pay(double amount,String name);
+}
+public class NetBankingStrategy implements PaymentStrategy
+{
+    private String email;
+    private String password;
+
+    public NetBankingStrategy(String email, String password)
+	{
+        this.email = email;
+        this.password = password;
+    }
+    public String pay(double amount,String name)
+	{
+        return amount + " paid with NetBankingStrategy  by "+name;
+    }
+}
+public class CreditCardStrategy implements PaymentStrategy 
+{
+    private String name;
+    private String cardNumber;
+    private String cvv;
+    private String dateOfExpiry;
+
+    public CreditCardStrategy(String name, String cardNumber, String cvv, String dateOfExpiry) 
+	{
+        this.name = name;
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+        this.dateOfExpiry = dateOfExpiry;
+    }
+
+    public String pay(double amount,String name)
+	{
+        return amount + " paid with CrediteCard by "+name;
+    }
+}
+public class PaymentContext
+{
+    private PaymentStrategy paymentStrategy;
+
+   // public PaymentContext(PaymentStrategy paymentStrategy){
+   //     this.paymentStrategy = paymentStrategy;
+   // }
+   
+    public void setStrategy(PaymentStrategy paymentStrategy)
+    {
+        this.paymentStrategy = paymentStrategy;
+    }
+    public String executePayment(double amount,String name)
+	{
+        return paymentStrategy.pay(amount,name);
+    }
+}
+public class CashStrategy implements PaymentStrategy 
+{
+    public String pay(double amount,String name)
+	{
+        return amount + " paid with Cash by "+name;
+    }
+}
+public class Client
+{
+    public static void main(String[] args)
+	{
+        PaymentContext paymentContext = new PaymentContext();
+		paymentContext.setStrategy(new CreditCardStrategy("satyajit", "5544 1246 1020 8813", "447", "07/28"));
+        System.out.println(paymentContext.executePayment(500,"satyajit"));
+
+        paymentContext.setStrategy(new NetBankingStrategy("satyajit@gmail.com", "2241"));
+        System.out.println(paymentContext.executePayment(5000,"satyajit"));
+
+        paymentContext.setStrategy(new CashStrategy());
+        System.out.println(paymentContext.executePayment(100,"satyajit"));
+    }
+}
+
+

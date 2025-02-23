@@ -1,0 +1,53 @@
+class CPU {
+    public void processData() {
+        System.out.println("CPU is processing data");
+    }
+}
+
+// Subsystem 2
+class Memory {
+    public void load() {
+        System.out.println("Memory is loading data");
+    }
+}
+
+// Subsystem 3
+class HardDrive {
+    public void readData() {
+        System.out.println("Hard Drive is reading data");
+    }
+}
+
+// Facade
+class ComputerFacade {
+    private CPU cpu;
+    private Memory memory;
+    private HardDrive hardDrive;
+
+    public ComputerFacade() {
+        this.cpu = new CPU();
+        this.memory = new Memory();
+        this.hardDrive = new HardDrive();
+    }
+
+    public void start() {
+        cpu.processData();
+        memory.load();
+        hardDrive.readData();
+        System.out.println("Computer is starting...");
+    }
+
+    public void shutdown() {
+        System.out.println("Computer is shutting down...");
+    }
+}
+
+// Client code
+public class Main {
+    public static void main(String[] args) {
+        ComputerFacade computer = new ComputerFacade();
+        computer.start();
+        System.out.println();
+        computer.shutdown();
+    }
+}

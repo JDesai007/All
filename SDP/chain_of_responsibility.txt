@@ -1,0 +1,75 @@
+//interface
+
+interface Handler{
+	public void setNext(Handler next);
+	public void handleReq(int number);
+}
+
+//positive
+
+class Positive implements Handler{
+	Handler next;
+	public void setNext(Handler next){
+		this.next = next;
+	}
+	public void handleReq(int number){
+		if(number>0){
+			System.out.println(number + " number is a positive number");
+		}else{
+			next.handleReq(number);
+		}
+	}
+	
+}
+
+//negative
+
+class Negative implements Handler{
+	Handler next;
+	public void setNext(Handler next){
+		this.next = next;
+	}
+	public void handleReq(int number){
+		if(number<0){
+			System.out.println(number + " number is a negative number");
+		}else{
+			next.handleReq(number);
+		}
+	}
+	
+}
+
+
+//zero
+
+class Zero implements Handler{
+	Handler next;
+	public void setNext(Handler next){
+		this.next = next;
+	}
+	public void handleReq(int number){
+		if(number==0){
+			System.out.println(number + " number is a zero");
+		}else{
+			next.handleReq(number);
+		}
+	}
+	
+}
+
+
+//main
+
+class Main1{
+	public static void main(String args[]){
+		Handler positive = new Positive();
+		Handler negative = new Negative();
+		Handler zero = new Zero();
+		positive.setNext(negative);
+		negative.setNext(zero);
+		
+		positive.handleReq(5);
+        positive.handleReq(-3);
+        positive.handleReq(0);
+	}
+}

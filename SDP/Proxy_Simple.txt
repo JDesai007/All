@@ -1,0 +1,62 @@
+// Subject interface
+interface File {
+    void read();
+}
+
+// RealSubject class
+class RealFile implements File {
+    private String filename;
+
+    public RealFile(String filename) {
+        this.filename = filename;
+    }
+
+    @Override
+    public void read() {
+        System.out.println("Reading file: " + filename);
+    }
+}
+
+// Proxy class
+class ProxyFile implements File {
+    private RealFile realFile;
+    private String filename;
+    private String role;
+
+    public ProxyFile(String filename, String role) {
+        this.filename = filename;
+        this.role = role;
+    }
+
+    private boolean hasAccess() {
+        // Simulated access control logic based on the user's role
+        return role.equals("admin") || role.equals("manager");
+    }
+
+    @Override
+    public void read() {
+        if (hasAccess()) {
+            if (realFile == null) {
+                realFile = new RealFile(filename);
+            }
+            realFile.read();
+        } else {
+            System.out.println("Access denied. You do not have permission to read the file: " + filename);
+        }
+    }
+}
+
+// Client code
+public class ProxyPatternExample {
+    public static void main(String[] args) {
+        // Simulate different user roles
+        File adminFile = new ProxyFile("adminfile.txt", "admin");
+        File managerFile = new ProxyFile("managerfile.txt", "manager");
+        File userFile = new ProxyFile("userfile.txt", "user");
+
+        // Try to read files with different user roles
+        adminFile.read();    // Access granted
+        managerFile.read();  // Access granted
+        userFile.read();     // Access denied
+    }
+}

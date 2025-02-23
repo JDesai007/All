@@ -1,0 +1,31 @@
+import java.awt.*;
+
+public class Notepad {
+    private static Notepad instance = new Notepad();
+
+    private Notepad() {
+        // Private Constructor
+		
+		Frame frame = new Frame("Notepad");
+        MenuBar menuBar = new MenuBar();
+        Menu file = new Menu("File");
+        MenuItem open = new MenuItem("Open");
+        MenuItem save = new MenuItem("Save");
+        MenuItem exit = new MenuItem("Exit");
+        file.add(open);
+        file.add(save);
+        file.add(exit);
+        menuBar.add(file);
+        frame.setMenuBar(menuBar);
+        frame.setSize(500, 500);
+        frame.setLayout(null);
+        frame.setVisible(true);
+    }
+
+    public static Notepad getInstance() {
+        
+        return instance;
+    }
+
+    
+}

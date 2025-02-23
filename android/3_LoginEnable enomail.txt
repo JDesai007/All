@@ -1,0 +1,300 @@
+3.create login application where you will have to validate
+emailid(username).till the username and password is not validated
+,login button should remain disabled
+
+MainActivity.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txtUser"
+        android:layout_width="190dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="UserName"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/userpwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.312"
+        tools:ignore="HardCodedText" />
+
+    <EditText
+        android:id="@+id/usernm"
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtUser"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:autofillHints=""
+        android:inputType="textEmailAddress"
+        android:minHeight="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/userpwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtUser"
+        app:layout_constraintVertical_bias="0.19"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/txtPass"
+        android:layout_width="194dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/usernm"
+        android:layout_centerInParent="true"
+        android:text="Password"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/userpwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.435"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernm"
+        app:layout_constraintVertical_bias="0.509"
+        tools:ignore="HardCodedText" />
+
+    <EditText
+        android:id="@+id/userpwd"
+        android:layout_width="313dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPass"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.361"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="166dp"
+        android:layout_height="54dp"
+        android:layout_below="@+id/userpwd"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Login"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userpwd"
+        app:layout_constraintVertical_bias="0.112"
+        tools:ignore="HardCodedText,MissingConstraints" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+MainActivity.java
+
+package com.example.login;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button btnLogin;
+
+    EditText txtUname, txtPass;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        txtUname = (EditText) findViewById(R.id.usernm);
+        txtPass = (EditText) findViewById(R.id.userpwd);
+        btnLogin.setEnabled(false);
+
+        String emailpattern="[a-zA-Z0-9._-]+@[a-z]+[a-z]+";
+        TextWatcher logintextwatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                boolean isFieldsNotEmpty = !txtUname.getText().toString().isEmpty() && !txtPass.getText().toString().isEmpty();
+                btnLogin.setEnabled(isFieldsNotEmpty);
+            }
+        };
+
+        txtUname.addTextChangedListener(logintextwatcher);
+        txtPass.addTextChangedListener(logintextwatcher);
+
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (txtUname.getText().toString().isEmpty() || txtPass.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Username and password required.", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    if (txtUname.getText().toString().equals("satya@gmail.com") && txtPass.getText().toString().equals("12345")) {
+                        Toast.makeText(getApplicationContext(), "Login Success.", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(getApplicationContext(), SecondActivity.class).putExtra("username", txtUname.getText().toString()));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Wrong username or password.", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                }
+            }
+        });
+
+
+        txtUname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b)
+                {
+                    String email=txtUname.getText().toString().trim();
+                    if(!email.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        txtUname.setBackgroundColor(getResources().getColor(R.color.red));
+                        Toast.makeText(getApplicationContext(), "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+
+                    }
+                    else
+                    {
+                        if (txtUname.getText().toString().equals("satya@gmail.com"))
+                        {
+                            txtUname.setBackgroundColor(getResources().getColor(R.color.green));
+                        }
+                        else
+                        {
+                            txtUname.setBackgroundColor(getResources().getColor(R.color.red));
+                        }
+                    }
+                }
+                else
+                {
+                    txtUname.setBackgroundColor(getResources().getColor(R.color.white));
+                }
+            }
+        });
+
+
+
+
+       txtPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+           @Override
+           public void onFocusChange(View view, boolean b) {
+               if (!b) {
+                   if (txtPass.getText().toString().equals(" ") || txtPass.getText().toString().equals("")) {
+                       txtPass.setBackgroundColor(getResources().getColor(R.color.red));
+                   } else {
+                       if (txtPass.getText().toString().equals("12345")) {
+                           txtPass.setBackgroundColor(getResources().getColor(R.color.green));
+                       } else {
+                           txtPass.setBackgroundColor(getResources().getColor(R.color.red));
+                       }
+
+
+                   }
+               } else {
+                   txtPass.setBackgroundColor(getResources().getColor(R.color.white));
+               }
+           }
+       });
+
+
+    }
+}
+
+color.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#FF4CAF50</color>
+</resources>
+
+
+SecondActivity.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SecondActivity">
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="308dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="UserName"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.569"
+        tools:ignore="HardCodedText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+SecondActivity.java
+
+package com.example.login;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import java.util.Objects;
+
+public class SecondActivity extends AppCompatActivity {
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+
+        TextView tv=(TextView) findViewById(R.id.welcome);
+        tv.setText("Welcome, "+ Objects.requireNonNull(getIntent().getExtras()).getString("username"));
+    }
+}
+

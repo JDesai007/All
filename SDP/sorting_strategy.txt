@@ -1,0 +1,195 @@
+//interface
+
+public interface Sorting
+{
+   public int[] sort(int[] arr);
+   public void getApplicaton();
+}
+
+//quicksort
+
+public class Quicksort implements Sorting
+{
+   private int a[];
+   private int len;
+   private int small;
+   public int[] sort(int[] arr)
+   {
+	   for(int i=0;i<arr.length;i++)
+	   {
+		   a[i]=arr[i];
+	   }
+	   for(int i=0;i<a.length;i++)
+	   {
+		   small=i;
+		   for(int j=i+1;j<a.length;j++)
+		   {
+			   if(a[j]<a[small])
+			   small=j;
+		       int temp=a[small];
+			   a[small]=a[i];
+			   a[i]=temp;
+		   }
+	   }
+	   return a;
+   }
+   public void getApplicaton()
+   {
+	   
+   }
+}
+
+//insertionsort
+
+public class Insertionsort implements Sorting
+{
+   private int a[];
+   private int len;
+   private int key;
+   private int j;
+   public int[] sort(int[] arr)
+   {
+	   len=arr.length;
+	   a=new int[len];
+	   for(int i=0;i<arr.length;i++)
+	   {
+		   a[i]=arr[i];
+	   }
+	   for(int i=0;i<a.length;i++)
+	   {
+		   key=a[i];
+		   j=i-1;
+		   while(j>=0 && a[j]>key)
+		   {
+			 a[j+1]=a[j];
+              j=j-1;			 
+		   }
+		   a[j+1]=key;
+	   }
+	   return a;
+   }
+   public void getApplicaton()
+   {
+	   
+   }
+}
+
+//bubble sort
+
+public class BubbleSort implements Sorting
+{
+	private int a[];
+	private int len;
+	
+   public int[] sort(int[] arr)
+   {
+	   len=arr.length;
+	   a=new int[len];
+       for(int i=0;i<arr.length;i++)
+	   {
+		   a[i]=arr[i];
+	   }
+	   for(int i=0;i<len-1;i++)
+	   {
+		   for(int j=0;j<len-i-1;j++)
+		   {
+			   if(a[j]>a[j+1])
+			   {
+				   int temp=a[j];
+				   a[j]=a[j+1];
+				   a[j+1]=temp;
+			   }
+		   }
+	   }
+	   return a;
+   }
+  public void getApplicaton()
+  {
+	  System.out.println("use for small dataset");
+  }
+}
+
+//Applysort
+public class Applysort
+{
+	private Sorting s;
+    Applysort()
+	{
+		
+	}
+	public int[] setStategy(Sorting s,int[] arr)
+	{
+		return s.sort(arr);
+	}
+	public void getAppliaction(Sorting s)
+	{
+		s.getApplicaton();
+	}
+}
+
+//ClientSort
+
+import java.util.Scanner;
+public class ClientSort
+{
+    public static void main(String args[])
+	{
+	   int arr[],arr1[];
+	   int size;
+	   int opt;
+	   Applysort ap=new Applysort();
+	   Scanner sc=new Scanner(System.in);
+	   System.out.println("Enter array size ");
+	   size=sc.nextInt();
+	   arr=new int[size];
+	   arr1=new int[size];
+	   System.out.println("Enter element ");
+	   for(int i=0;i<size;i++)
+	   {
+		  arr[i]=sc.nextInt(); 
+	   }
+	   do
+	   {
+		  System.out.println("1.bubble sort");
+		  System.out.println("2.insertion sort");
+		  System.out.println("3.quick sort");
+		  System.out.print("Enter your choise \n");
+		  opt=sc.nextInt();
+		  switch(opt)
+		  {
+			  case 1:arr1=ap.setStategy(new BubbleSort(),arr);
+			         ap.getAppliaction(new BubbleSort());
+			         System.out.print("sorted element ");
+			         for(int i=0;i<arr1.length;i++)
+					 {
+						 System.out.print(arr1[i]+" ");
+					 }
+					 System.out.print("\n");
+					 
+					 break;
+			 case 2:arr1=ap.setStategy(new Insertionsort(),arr);
+			         ap.getAppliaction(new Insertionsort());
+			         System.out.print("sorted element ");
+			         for(int i=0;i<arr1.length;i++)
+					 {
+						 System.out.print(arr1[i]+" ");
+					 }
+					 System.out.print("\n");
+					 break;		
+            case 3:arr1=ap.setStategy(new Quicksort(),arr);
+			         ap.getAppliaction(new Quicksort());
+			         System.out.print("sorted element ");
+			         for(int i=0;i<arr1.length;i++)
+					 {
+						 System.out.print(arr1[i]+" ");
+					 }
+					 System.out.print("\n");
+					 break;							 
+					 
+			  
+			         
+		  }
+	   }while(opt!=4);
+	   
+	}
+}
