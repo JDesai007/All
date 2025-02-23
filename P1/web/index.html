@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Calculate Compound Interest</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <style>
+        body {
+            /*font-family: Arial, sans-serif;*/
+            margin: 0;
+            padding: 0;
+            background-color: #f3f6f4;
+              background: url(bg.jpg);
+             background-size:cover;
+            background-repeat: no-repeat;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            border:2px solid black;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        hr {
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px 20px;
+            border: none;
+            background-color:#f21b0b;
+            color: white;
+            /*border: 2px solid greenyellow;*/
+            border-radius: 20px;
+            cursor: pointer;
+        }
+         
+       
+        button[name="submit"]:hover {
+        background-color: white;
+        border: 2px solid black;
+        color:gray;
+        }
+        button[name="reset"]:hover {
+        background-color: white;
+        border: 2px solid black;
+        color:black;
+        }
+       
+       
+ 
+        button[type="submit"] {
+           
+            margin-rig: 150px;
+        }
+        button[type="reset"] {
+           
+            margin-rig: 150px;
+        }
+        .btn {
+            overflow: hidden;
+        }
+     
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <h2>Compound Interest Calculation</h2>
+            <hr>
+            <form action="Interst" method="post" onsubmit="return validateForm()">
+                <table>
+                    <tr>
+                        <td><label for="amount">Principal Amount:</label></td>
+                        <td>
+                            <div>
+                               
+                                <input type="text" id="amount" name="amount" ></td>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="rate">Interest Rate:</label></td>
+                        <td>
+                            <div>
+                                <input type="text" id="rate" name="rate">
+                             
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="year">Years:</label></td>
+                        <td><input type="text" id="year" name="year"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="months">Months:</label></td>
+                        <td><input type="text" id="months" name="months"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="calculateinterest">Compound Interval:</label></td>
+                        <td><select name="calculateinterest" id="calculateinterest" required>
+                                <option value="daily">Daily (365/yr)</option>
+                                <option value="daily360">Daily (360/yr)</option>
+                                <option value="semiweekly">Semi-Weekly (104/yr)</option>
+                                <option value="weekly">Weekly (52/yr)</option>
+                                <option value="biweekly">Bi-Weekly (26/yr)</option>
+                                <option value="halfmonthly">Semi-Monthly (24/yr)</option>
+                                <option value="monthly" selected>Monthly (12/yr)</option>
+                                <option value="bimonthly">Bi-Monthly (6/yr)</option>
+                                <option value="quarterly">Quarterly (4/yr)</option>
+                                <option value="halfyearly">Half-Yearly (2/yr)</option>
+                                <option value="yearly">Yearly (1/yr)</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                <div class="btn">
+                   
+                    <td> <button type="submit" class="btn-outline-success" name="submit">Calculate</button></td>
+                    <td><button type="reset" style="margin-left: 20px; background-color: green;" class="btn-outline-success" name="submit">Reset</button></td>
+                </div>
+                </tr>
+                    </table>
+            </form>
+        </div>
+
+        <script>
+            function validateForm() {
+                var amount = document.getElementById("amount").value;
+                var rate = document.getElementById("rate").value;
+                var year = document.getElementById("year").value;
+                var months = document.getElementById("months").value;
+                var calculateinterest = document.getElementById("calculateinterest").value;
+
+                var number_pattern = /^[0-9]*$/;
+                var float_pattern = /^\d*(\.\d{1,2})?$/;
+
+                if (amount.trim() === "" || !number_pattern.test(amount)) {
+                    alert("Enter a amount !");
+                    return false;
+                }
+
+                if (rate.trim() === "" || !float_pattern.test(rate) || parseFloat(rate) > 100) {
+                    alert("Enter a valid interest rate less than or equal to 100 !");
+                     return false;
+                    }
+
+                if (year.trim() === "" || !number_pattern.test(year)) {
+                    alert("Enter a valid number of year!.");
+                    return false;
+                }
+//                if (parseInt(year) === 0 && parseInt(months) > 0) {
+//                    alert("If the number of years is 0, the number of months should be greater than 0.");
+//                        return false;
+//                            }
+
+                if (months.trim() === "" || !number_pattern.test(months) || parseInt(months) >= 12) {
+                    alert("Enter a valid number of months(not greater than  12).");
+                    return false;
+                }
+
+                if (calculateinterest === "") {
+                    alert("Select a compound interval !");
+                    return false;
+                }
+ 
+            }
+        </script>
+
+    </body>
+</html>
